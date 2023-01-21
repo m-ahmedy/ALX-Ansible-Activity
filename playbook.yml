@@ -1,0 +1,15 @@
+- name: Ansible-Activity
+  remote_user: ubuntu
+  hosts: servers
+  gather_facts: false
+  vars:
+    ansible_host_key_checking: false
+
+  pre_tasks:
+    - name: Wait for 60 seconds for the nodes to become alive
+      ansible.builtin.wait_for_connection:
+        timeout: 60
+
+  roles:
+    - configure
+    - deploy

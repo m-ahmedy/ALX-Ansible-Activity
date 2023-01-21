@@ -1,0 +1,24 @@
+- name: Install Node.js LTS
+  become: true
+  ansible.builtin.shell: |
+    curl -fsSL https://deb.nodesource.com/setup_lts.x | sudo -E bash - &&\
+    sudo apt-get install -y nodejs
+
+- name: Install n with npm
+  become: true
+  community.general.npm:
+    name: "n"
+    global: true
+    state: present
+
+- name: Switch to Node.js 13.8.0
+  become: true
+  ansible.builtin.shell: |
+    sudo n 13.8.0
+
+- name: Install PM2 Process Manager with npm
+  become: true
+  community.general.npm:
+    name: "pm2"
+    global: true
+    state: present

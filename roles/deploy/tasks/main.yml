@@ -1,0 +1,17 @@
+- name: Create app directory
+  ansible.builtin.file:
+    path: /home/ubuntu/app
+    state: directory
+    mode: '0755'
+
+- name: Copy app script to the directory
+  ansible.builtin.copy:
+    src: server-app.js
+    dest: /home/ubuntu/app
+
+- name: Run the app with PM2
+  ansible.builtin.shell: |
+    pm2 stop default
+
+    cd /home/ubuntu/app
+    pm2 start server-app.js
