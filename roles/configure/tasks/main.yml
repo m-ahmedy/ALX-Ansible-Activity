@@ -1,8 +1,19 @@
-- name: Install Node.js LTS
+
+- name: Fetch Node.js installation script
   become: true
-  ansible.builtin.shell: |
-    curl -fsSL https://deb.nodesource.com/setup_lts.x | sudo -E bash - &&\
-    sudo apt-get install -y nodejs
+  ansible.builtin.get_url:
+    url: https://deb.nodesource.com/setup_lts.x
+    dest: /tmp/setup_lts.x
+
+- name: Execute installation script
+  become: true
+  ansible.builtin.shell: sudo -E bash /tmp/setup_lts.x
+
+- name: Install Node.js LTS from apt
+  become: true
+  ansible.builtin.apt:
+    name: nodejs
+    update_cache: yes
 
 - name: Install n with npm
   become: true
